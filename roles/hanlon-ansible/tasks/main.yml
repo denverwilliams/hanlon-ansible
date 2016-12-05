@@ -1,0 +1,34 @@
+- name: Hanlon
+  hosts: coreos
+  tasks:
+    - name: Install docker-py
+      pip: name=docker-py version=1.2.3
+
+    - name: pull container
+      raw: docker pull iidlx/hanlon:latest
+
+    - name: launch hanlon container
+      docker_container:
+        name: hanlon
+        image: iidlx/hanlon:latest
+        state=started
+        network_mode: host
+        privileged: true
+        env:
+            DOCKER_HOST=192.168.1.185
+            HANLON_SUBNETS=172.17.0.0/16,192.168.1.0/24
+            IPMI_HOST_infra0=192.168.1.200
+            IPMI_HOST_infra1=192.168.1.201
+            IPMI_HOST_infra2=192.168.1.202
+            IPMI_HOSTS=infra0 infra1 infra2
+            IPMI_PASS=P@ssw0rd
+            IPMI_PASS_infra0=P@ssw0rd
+            IPMI_PASS_infra1=P@ssw0rd
+            IPMI_PASS_infra2=P@ssw0rd
+            IPMI_PASSWD=P@ssw0rd
+            IPMI_USER=admin
+            IPMI_USER_infra0=admin
+            IPMI_USER_infra1=admin
+            IPMI_USER_infra2=admin
+            PERSIST_MODE=@json
+           
